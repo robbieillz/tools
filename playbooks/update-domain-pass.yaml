@@ -1,0 +1,27 @@
+# The playbook prompts for the username and new password using vars_prompt. The private: yes option hides the password input.
+# The hosts field specifies the target hosts where the password should be changed. Make sure the hosts are listed in your Ansible inventory file under the appropriate group.
+# The task Change user password uses the win_domain_password module to update the password of the specified Windows user.
+# The update_password: always parameter ensures that the password is updated even if it matches the existing password.
+# ansible-playbook -i inventory.ini change_password.yml
+
+
+---
+- name: Change Windows User Password
+  hosts: windows_servers
+  gather_facts: false
+
+  vars_prompt:
+    - name: username
+      prompt: "Enter the username to change the password:"
+      private: no
+
+    - name: new_password
+      prompt: "Enter the new password:"
+      private: yes
+
+  tasks:
+    - name: Change user password
+      win_domain_password:
+        name: "{{ username }}"
+        password: "{{ new_password }}"
+        update_password: always

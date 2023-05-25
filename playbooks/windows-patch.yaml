@@ -1,0 +1,31 @@
+# ansible-playbook -i inventory.ini patch_windows_servers.yml
+
+
+- name: Patch Windows Servers
+  hosts: windows_servers
+  gather_facts: false
+  tasks:
+    - name: Check for available updates
+      win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+        state: searched
+      register: updates_result
+
+    - name: Install updates
+      win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+        state: installed
+      when: updates_result.updates | length > 0
+
+    - name: Reboot if updates installed
+      win_reboot:
+      when: updates_result.reboot_required
+
+    - name: Wait for server to come back online
+      wait_for_connection:
+        delay: 30
+        timeout: 300
