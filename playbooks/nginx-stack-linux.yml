@@ -1,0 +1,85 @@
+---
+- name: Install MySQL, PHP, and Nginx
+  hosts: <SERVERNAME>
+  become: true
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      when: ansible_os_family == 'Ubuntu'
+
+    - name: Install MySQL server
+      apt:
+        name: mysql-server
+        state: present
+      when: ansible_os_family == 'Ubuntu'
+
+    - name: Install PHP and required extensions
+      apt:
+        name: 
+          - php
+          - php-fpm
+          - php-mysql
+          - php-curl
+          - php-gd
+          - php-mbstring
+          - php-xml
+        state: present
+      when: ansible_os_family == 'Ubuntu'
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      when: ansible_os_family == 'Ubuntu'
+
+    - name: Install MySQL server
+      yum:
+        name: mysql-server
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install PHP and required extensions
+      yum:
+        name: 
+          - php
+          - php-fpm
+          - php-mysql
+          - php-curl
+          - php-gd
+          - php-mbstring
+          - php-xml
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install Nginx
+      yum:
+        name: nginx
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Start MySQL service
+      service:
+        name: mysql
+        state: started
+        enabled: true
+      when: ansible_os_family == 'Ubuntu'
+
+    - name: Start MySQL service
+      service:
+        name: mysqld
+        state: started
+        enabled: true
+      when: ansible_os_family == 'RedHat'
+
+    - name: Start PHP-FPM service
+      service:
+        name: php-fpm
+        state: started
+        enabled: true
+
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: true

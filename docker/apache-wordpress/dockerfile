@@ -1,0 +1,21 @@
+# Base image
+FROM wordpress:latest
+
+# Set the working directory
+WORKDIR /var/www/html
+
+# Copy the WordPress files to the container
+COPY . /var/www/html
+
+# Set file permissions
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+
+# Expose port 80 (default HTTP port)
+EXPOSE 80
+
+# Define the entrypoint script
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Start the Apache web server
+CMD ["apache2-foreground"]
