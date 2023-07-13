@@ -1,0 +1,12 @@
+apiVersion: example.com/v1
+kind: UserQuota
+metadata:
+  name: alice
+  namespace: default
+spec:
+  requests:
+    cpu: "1"
+    memory: "1Gi"
+  limits:
+    cpu: "2"
+    memory: "2Gi"
