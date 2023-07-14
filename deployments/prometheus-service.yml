@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-server
+  namespace: prometheus
+spec:
+  selector:
+    prometheus: server
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: prometheus
