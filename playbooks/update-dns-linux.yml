@@ -1,0 +1,17 @@
+- name: Update DNS configuration
+  hosts: server_group
+  become: true
+  
+  tasks:
+    - name: Update DNS settings
+      lineinfile:
+        path: /etc/resolv.conf
+        regexp: '^nameserver'
+        line: 'nameserver <new_dns_server>'
+      notify: restart network
+      
+  handlers:
+    - name: restart network
+      service:
+        name: network
+        state: restarted
