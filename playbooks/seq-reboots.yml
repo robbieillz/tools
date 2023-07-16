@@ -1,0 +1,27 @@
+---
+- name: Reboot servers
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Reboot server
+      shell: "reboot"
+      async: 1
+      poll: 0
+      ignore_errors: true
+      register: reboot_result
+
+    - name: Log reboot command result
+      debug:
+        msg: "Reboot command result for {{ inventory_hostname }}: {{ reboot_result }}"
+
+    - name: Wait for server to come back online
+      wait_for_connection:
+        delay: 10
+        timeout: 300
+        connect_timeout: 5
+      when: reboot_result is failed
+
+    - name: Log server back online
+      debug:
+        msg: "Server {{ inventory_hostname }} is back online"
