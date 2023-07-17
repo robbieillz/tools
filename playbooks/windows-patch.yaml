@@ -4,7 +4,8 @@
 - name: Patch Windows servers
   hosts: windows_servers
   gather_facts: false
-
+  serial: 1
+  
   tasks:
  
     - name: Ping Windows Server
