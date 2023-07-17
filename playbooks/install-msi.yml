@@ -1,0 +1,22 @@
+---
+- name: Install MSI package using WinRM
+  hosts: windows_hosts
+  gather_facts: false
+  tasks:
+    - name: Copy MSI file to remote host
+      win_copy:
+        src: </path/to/package.msi>
+        dest: C:\Temp\<package.msi>
+        remote_src: yes
+
+    - name: Install MSI package
+      win_package:
+        path: C:\Temp\<package.msi>
+        arguments: '/qn'  # Optional MSI arguments
+        #product_id: 'YOUR_PRODUCT_ID'  # Optional product ID
+        state: present
+      register: install_result
+
+    - name: Check installation result
+      debug:
+        var: install_result
