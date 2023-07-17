@@ -5,7 +5,7 @@
   hosts: windows_servers
   gather_facts: false
   serial: 1
-  
+
   tasks:
  
     - name: Ping Windows Server
@@ -16,6 +16,7 @@
         category_names: 
             - SecurityUpdates
             - CriticalUpdates
+            - UpdateRollups
         state: installed
         reboot: true
         log_path: C:\ansible_patch.log
