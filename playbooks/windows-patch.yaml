@@ -17,7 +17,7 @@
             - CriticalUpdates
         state: installed
         reboot: true
-        log_path: C:\logs\ansible.log
+        log_path: C:\ansible_patch.log
       register: update_result
 
     - name: Wait for server to come back online
