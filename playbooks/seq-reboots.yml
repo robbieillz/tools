@@ -1,6 +1,6 @@
 ---
 - name: Reboot servers
-  hosts: all
+  hosts: windows_servers
   gather_facts: false
 
   tasks:
