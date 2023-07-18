@@ -4,24 +4,26 @@
   become: yes
 
   tasks:
+    - name: Check if MySQL is installed
+      stat:
+        path: /usr/bin/mysql
+      register: mysql_installed
+
     - name: Install MySQL server
       apt:
         name: mysql-server
         state: present
-
-    - name: Start MySQL service
-      service:
-        name: mysql
-        state: started
+      when: mysql_installed.stat.exists == false
+      
     - name: Create MySQL database
       mysql_db:
-        name: my_database
+        name: test
         state: present
 
     - name: Create MySQL user
       mysql_user:
-        name: my_user
-        password: my_password
+        name: test
+        password: test
         priv: '*.*:ALL'
         host: localhost
         state: present
