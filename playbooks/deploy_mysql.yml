@@ -1,0 +1,15 @@
+---
+- name: Deploy MySQL database
+  hosts: database
+  become: yes
+
+  tasks:
+    - name: Install MySQL server
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Start MySQL service
+      service:
+        name: mysql
+        state: started
