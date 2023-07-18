@@ -13,3 +13,15 @@
       service:
         name: mysql
         state: started
+    - name: Create MySQL database
+      mysql_db:
+        name: my_database
+        state: present
+
+    - name: Create MySQL user
+      mysql_user:
+        name: my_user
+        password: my_password
+        priv: '*.*:ALL'
+        host: localhost
+        state: present
